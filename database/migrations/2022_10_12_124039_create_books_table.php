@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('author');
             $table->string('country');
             $table->string('language');
-            $table->string('imageLink');
+            $table->string('image');
             $table->integer('pages');
             $table->string('year');
             $table->timestamps();

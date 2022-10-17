@@ -9,37 +9,98 @@ use Illuminate\Support\Facades\Route;
 
 class BooksController extends Controller
 {
-    public function index(){
-        return view("welcome", ["books" => Books::all()]);
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return view("index", 
+        ["books" => Books::latest()->filter(Request(['search']))->paginate(4)
+    ]);
+    }
+
+    public function show()
+    {
+        return view('show', ["book" => Books::find(@request("id"))]);
+    }
+    public function create()
+    {
+        return view("create");
     }
 
     public function store(Request $request)
     {
-    //     $book = new book;
-    // $book->title = $request->title;
-    // $book->book_description = $request->book_description;
-    // $book->book_auther =$request->book_auther;
-    // $book->book_image = $request->book_image ;
-    // $book->save();
-    // return redirect('/');
+        // dd($request->all());
+        $formFields = $request->validate([
+            'title' => "required",
+            'author' => "required",
+            'language' => "required",
+            'country' => "required",
+            'year' => "required",
+            'pages' => "required",
+            'description' => "required",
+        ]);
 
-    //     $formFields = $request->validate([
-    //         'title' => "required",
-    //         'author' => "required",
-    //         'language' => "required",
-    //         'country' => "required",
-    //         'year' => "required|numeric",
-    //         'pages' => "required|numeric",
-    //         'description' => "required"
-    //     ]);
-    //     if ($request->hasFile('imageLink')){
-    //         $formField['imageLink'] = $request->file('imageLink')->store('uploaded', 'public');
+        // $newImageName = time () . '-' . $request->title . '.' . $request->image->extension();
+        // $formFields['image'] = $request->image->move(public_path('images'), $newImageName);
+        if($request->hasFile('image'))
+        {
+            $formFields['image'] = $request->file('image')->store('images', 'public');
+        }
         
-    // }
-            // dd($request->all());
-        Books::create($request->all());
 
-        return redirect("/");
+        Books::create($formFields);
+        return redirect('/')->with("message", "Book Added Successfully!");
     }
-    //
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Books  $book
+     * @return \Illuminate\Http\Response
+     */
+
+     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Books  $book
+     * @return \Illuminate\Http\Response
+     */
+    public function edit()
+    {
+        return view("edit", ['book' => Books::findOrFail(@request('id'))]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Books  $books
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $formFields = $request->validate([
+            'title' => "required",
+            'author' => "required",
+            'language' => "required",
+            'country' => "required",
+            'year' => "required",
+            'pages' => "required",
+            'description' => "required",
+        ]);
+        if ($request->hasFile('image')){
+            $formFields['image'] = $request->file('image')->store('images', 'public');
+        }
+        Books::where('id', @request('id'))->update($formFields);
+        return redirect('/');
+    }
+   
+    public function destroy($id)
+        {   
+            Books::where('id', $id)->delete();
+            return redirect('/')->with("message", "Book Deleted Successfully!");
+        }
+    
 }

@@ -1,26 +1,26 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\BooksController;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
-Route::get('/', [BooksController::class, 'index' ]);
 
-Route::post('/store',[BooksController::class, 'store']);
+Route::get('/', [BooksController::class, 'index']);
+Route::get('books', [BooksController::class, 'index']);
 
-Route::get('/add', function () {
-    return view('add');
-});
+Route::get('show/{id}', [BooksController::class, 'show']);
 
-Route::get('/edit', function () {
-    return view('edit');
-})->name('edit');
+Route::get('/add', [BooksController::class, 'create']);
+
+Route::get('edit/{id}', [BooksController::class, 'edit']);
+Route::post('/books', [BooksController::class, "store"]);
+Route::post('/edit/{id}', [BooksController::class, "update"]);
+Route::get('/del/{id}', [BooksController::class, "destroy"]);
+
+
+
+// Show Registration Form
+Route::get('/register', [UserController::class, 'create']);
+
+// Show Login Form
+Route::get('/login', [UserController::class, 'login']);

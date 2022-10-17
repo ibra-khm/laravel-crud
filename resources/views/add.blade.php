@@ -32,7 +32,7 @@
           </div>
           <div class="mb-3">
             <label for="language" class="form-label">Language</label>
-            <input name="language" type="file" class="form-control" id="language" aria-describedby="emailHelp">
+            <input name="language" type="text" class="form-control" id="language" aria-describedby="emailHelp">
             <div id="emailHelp" class="form-text"></div>
           </div>
           <div class="mb-3">
@@ -46,13 +46,13 @@
             <div id="emailHelp" class="form-text"></div>
           </div>
           <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <input name="description" type="text" class="form-control" id="description" aria-describedby="emailHelp">
+            <label for="imageLink" class="form-label">Book Cover</label>
+            <input name="imageLink" type="file" class="form-control" id="imageLink" aria-describedby="emailHelp">
             <div id="emailHelp" class="form-text"></div>
           </div>
           <div class="mb-3">
-            <label for="imageLink" class="form-label">Description</label>
-            <input name="imageLink" type="text" class="form-control" id="imageLink" aria-describedby="emailHelp">
+            <label for="description" class="form-label">Description</label>
+            <input name="description" type="text" class="form-control" id="description" aria-describedby="emailHelp">
             <div id="emailHelp" class="form-text"></div>
           </div>
         <button type="submit" class="btn btn-primary">Add</button>
